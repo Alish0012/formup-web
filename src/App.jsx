@@ -9,14 +9,16 @@ import OgrenciPaneli from "./pages/OgrenciPaneli";
 function App() {
   return (
     <BrowserRouter>
+
+      <ScrollToTop />
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/yonetici-paneli" element={<YoneticiPaneli />} />
         <Route path="/egitmen-paneli" element={<EgitmenPaneli />} />
         <Route path="/ogrenci-paneli" element={<OgrenciPaneli />} />
       </Routes>
+
     </BrowserRouter>
   );
 }
-
-export default App;
