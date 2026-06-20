@@ -1,35 +1,138 @@
+import { Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ArrowRight, Users, CalendarDays, ChartNoAxesCombined, BrainCircuit, Building2, UserRoundCheck, Dumbbell } from "lucide-react";
 
 function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1400);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () =>
+      window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <main className="min-h-screen bg-[#050816] text-white overflow-hidden relative">
+    
+   
+  <>
+  {loading && (
+  <motion.div
+    className="fixed inset-0 z-[999] flex items-center justify-center bg-[#050816]"
+  >
+    <div className="text-center">
+      <motion.img
+        src="/img/logo.png"
+        alt="FormUp+"
+        initial={{ opacity: 0, scale: 0.85, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+        className="mx-auto h-32 w-auto object-contain"
+      />
+
+      <motion.div
+        initial={{ width: 0 }}
+        animate={{ width: 180 }}
+        transition={{ duration: 0.9, delay: 0.35 }}
+        className="mx-auto mt-6 h-1 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500"
+      />
+    </div>
+  </motion.div>
+)}
+ <main className="min-h-screen bg-[#050816] text-white overflow-hidden relative">
       {/* Arka plan parlama efekti */}
       <div className="absolute top-0 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-purple-600/30 blur-[120px]" />
 
       {/* Navbar */}
-      <header className="fixed top-4 left-0 z-50 w-full">
-  <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between rounded-full border border-white/10 bg-[#050816]/55 px-6 backdrop-blur-2xl">
-    <img
-      src="/img/logo.png"
-      alt="FormUp+ Logo"
-      className="h-40 w-auto object-contain"
-    />
+     <header className="fixed top-4 left-0 z-50 w-full px-4">
+     {menuOpen && (
+  <motion.div
+    initial={{ opacity: 0, y: -12, scale: 0.96 }}
+    animate={{ opacity: 1, y: 0, scale: 1 }}
+    exit={{ opacity: 0, y: -12, scale: 0.96 }}
+    transition={{ duration: 0.25 }}
+    className="absolute top-20 left-4 right-4 rounded-3xl border border-white/10 bg-[#0b1024]/95 p-6 backdrop-blur-2xl md:hidden shadow-[0_20px_60px_rgba(0,0,0,0.4)]"
+  >
+    <div className="flex flex-col gap-5 text-gray-300">
+      <a href="#ozellikler" onClick={() => setMenuOpen(false)} className="transition hover:text-cyan-300">
+        Özellikler
+      </a>
 
-    <div className="hidden md:flex items-center gap-7 text-sm text-gray-300">
-     <a href="/#ozellikler" className="hover:text-white transition">Özellikler</a>
-<a href="/#neden-formup" className="hover:text-white transition">Neden FormUp+</a>
-<a href="/#kimler-icin" className="hover:text-white transition">Paneller</a>
-<a href="/#demo" className="hover:text-white transition">Demo</a>
+      <a href="#neden-formup" onClick={() => setMenuOpen(false)} className="transition hover:text-cyan-300">
+        Neden FormUp+
+      </a>
+
+      <a href="#paneller" onClick={() => setMenuOpen(false)} className="transition hover:text-cyan-300">
+        Paneller
+      </a>
+
+      <a href="#demo" onClick={() => setMenuOpen(false)} className="transition hover:text-cyan-300">
+        Demo
+      </a>
     </div>
+  </motion.div>
+)}
+
+  <nav className={`mx-auto flex items-center justify-between rounded-full border px-6 backdrop-blur-2xl transition-all duration-500 ${
+  scrolled
+    ? "h-14 max-w-5xl border-white/10 bg-[#0b1024]/90 shadow-[0_20px_80px_rgba(0,0,0,0.45)]"
+    : "h-16 max-w-6xl border-white/10 bg-[#0b1024]/65 shadow-[0_20px_80px_rgba(0,0,0,0.25)]"
+}`}>
+    <a href="#" className="flex items-center">
+      <img
+        src="/img/logo.png"
+        alt="FormUp+ Logo"
+        className="h-40 w-auto object-contain"
+      />
+    </a>
+
+    <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
+      
+      <a href="#ozellikler" className="relative px-2 hover:text-cyan-300 transition after:absolute after:left-0 after:-bottom-2 after:h-px after:w-0 after:bg-cyan-300 after:transition-all after:duration-300 hover:after:w-full">
+        Özellikler
+      </a>
+
+      <a href="#neden-formup" className="relative px-2 hover:text-cyan-300 transition after:absolute after:left-0 after:-bottom-2 after:h-px after:w-0 after:bg-cyan-300 after:transition-all after:duration-300 hover:after:w-full">
+        Neden FormUp+
+      </a>
+
+      <a href="#paneller" className="relative px-2 hover:text-cyan-300 transition after:absolute after:left-0 after:-bottom-2 after:h-px after:w-0 after:bg-cyan-300 after:transition-all after:duration-300 hover:after:w-full">
+        Paneller
+      </a>
+
+      <a href="#demo" className="relative px-2 hover:text-cyan-300 transition after:absolute after:left-0 after:-bottom-2 after:h-px after:w-0 after:bg-cyan-300 after:transition-all after:duration-300 hover:after:w-full">
+        Demo
+      </a>
+    </div>
+    <button
+  onClick={() => setMenuOpen(!menuOpen)}
+  className="md:hidden text-white"
+>
+  {menuOpen ? <X size={26} /> : <Menu size={26} />}
+</button>
 
     <a
       href="#demo"
-      className="rounded-full border border-white/20 px-5 py-2 text-sm hover:bg-white hover:text-black transition"
+      className="hidden sm:inline-flex rounded-full bg-cyan-400 px-5 py-2 text-sm font-semibold text-black transition hover:bg-cyan-300 hover:shadow-[0_0_30px_rgba(34,211,238,0.35)]"
     >
-      Demo Talep Et
+      Demo Talebi
     </a>
   </nav>
 </header>
@@ -76,14 +179,19 @@ function Home() {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="mt-8 flex flex-col sm:flex-row gap-4"
           >
-            <button className="group rounded-full bg-cyan-400 px-7 py-3 font-semibold text-black hover:bg-cyan-300 transition flex items-center justify-center gap-2">
-              Sistemi Keşfet
-              <ArrowRight size={18} className="group-hover:translate-x-1 transition" />
-            </button>
+            <a
+  href="#ozellikler"
+  className="group rounded-full bg-cyan-400 px-8 py-4 font-semibold text-black transition hover:bg-cyan-300 flex items-center gap-2"
+>
+  Sistemi Keşfet
 
-            <button className="rounded-full border border-white/20 px-7 py-3 font-semibold hover:bg-white hover:text-black transition">
-              Demo Talep Et
-            </button>
+  <ArrowRight
+    size={20}
+    className="group-hover:translate-x-1 transition"
+  />
+</a>
+
+
           </motion.div>
         </div>
 
@@ -263,10 +371,10 @@ function Home() {
     </div>
   </div>
 </section>
-<section id="kimler-icin" className="relative z-10 max-w-7xl mx-auto px-8 py-32">
+<section id="paneller" className="relative z-10 max-w-7xl mx-auto px-8 py-32">
   <div className="text-center mb-16">
     <p className="text-cyan-300 font-semibold mb-4">
-      Kimler İçin? 
+      P A N E L L E R
     </p>
 
     <h2 className="text-4xl md:text-6xl font-black">
@@ -287,7 +395,7 @@ function Home() {
   </div>
 
   <div className="group cursor-pointer hover:scale-[1.02] hover:-translate-y-2 transition-all duration-500 rounded-[32px] border border-white/10 bg-white/[0.04] p-7 backdrop-blur-xl hover:border-cyan-400/40 hover:shadow-[0_20px_80px_rgba(34,211,238,0.15)]">
-   <Link to="/yonetici-paneli">
+   <a href="/yonetici-paneli" className="block">
   <AudienceCard
     number="01"
     icon={<Building2 size={30} />}
@@ -295,9 +403,9 @@ function Home() {
     description="Öğrenci, eğitmen, paket, ölçüm ve ders süreçlerini tek panelden yönetin."
     buttonText="Yönetici Panelini İncele"
   />
-</Link>
+</a>
 
-   <Link to="/egitmen-paneli">
+  <a href="/egitmen-paneli" className="block">
   <AudienceCard
     number="02"
     icon={<UserRoundCheck size={30} />}
@@ -305,9 +413,9 @@ function Home() {
     description="Öğrenci gelişimini takip edin, antrenman ve beslenme planlarını daha kolay yönetin."
     buttonText="Eğitmen Panelini İncele"
   />
-</Link>
+</a>
 
-   <Link to="/ogrenci-paneli">
+   <a href="/ogrenci-paneli" className="block">
   <AudienceCard
     number="03"
     icon={<Dumbbell size={30} />}
@@ -315,7 +423,7 @@ function Home() {
     description="Programlarınızı, ölçümlerinizi ve gelişim sürecinizi tek ekrandan görüntüleyin."
     buttonText="Öğrenci Panelini İncele"
   />
-</Link>
+</a>
     
   </div>
 </section>
@@ -444,92 +552,164 @@ function Home() {
     </form>
   </div>
 </section>
-<footer className="relative z-10 border-t border-white/10 bg-[#050816]">
-  <div className="max-w-7xl mx-auto px-8 py-10">
+<footer className="relative border-t border-white/10 bg-[#050816]">
+  <div className="mx-auto max-w-7xl px-8 py-8">
 
-    <div className="grid lg:grid-cols-3 gap-12">
+    <div className="grid gap-8 md:grid-cols-3">
 
-      {/* Sol Taraf */}
+      {/* Sol Alan */}
       <div>
-        <div className="flex items-center gap-5">
-          <img
-            src="/img/logo.png"
-            alt="FormUp+"
-            className="h-20 w-auto object-contain"
-          />
+        <div className="flex items-center gap-4">
+
+          <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03]">
+            <img
+              src="/img/logo.png"
+              alt="FormUp+"
+              className="h-10 w-auto object-contain"
+            />
+          </div>
 
           <div>
-            <h3 className="text-3xl font-bold">
+            <h3 className="text-3xl font-black">
               FormUp+
             </h3>
 
-            <p className="text-cyan-300 text-sm">
+            <p className="text-sm font-medium text-cyan-300">
               Spor Salonu Yönetim Platformu
             </p>
           </div>
+
         </div>
 
-        <p className="mt-5 max-w-md text-gray-400 leading-relaxed">
-          Salon yönetimi, öğrenci takibi ve yapay zeka destekli analizler tek platformda.
+        <p className="mt-4 max-w-sm text-sm leading-7 text-gray-400">
+          Öğrenci takibi, ölçüm yönetimi ve yapay zeka destekli analizleri
+          tek panelde birleştirin.
         </p>
       </div>
 
       {/* Site */}
       <div>
-        <h4 className="mb-5 text-lg font-bold">
+        <h4 className="mb-4 text-base font-bold text-white">
           Site
         </h4>
 
-        <div className="space-y-3 text-gray-400">
-          <a href="#ozellikler" className="block hover:text-cyan-300">
+        <div className="space-y-2 text-sm text-gray-400">
+
+          <a
+            href="#ozellikler"
+            className="block transition hover:translate-x-1 hover:text-cyan-300"
+          >
             Özellikler
           </a>
 
-          <a href="#neden-formup" className="block hover:text-cyan-300">
-            Neden FormUp?
+          <a
+            href="#neden-formup"
+            className="block transition hover:translate-x-1 hover:text-cyan-300"
+          >
+            Neden FormUp+
           </a>
 
-          <a href="#kimler-icin" className="block hover:text-cyan-300">
-            Kimler İçin?
+          <a
+            href="#paneller"
+            className="block transition hover:translate-x-1 hover:text-cyan-300"
+          >
+            Paneller
           </a>
 
-          <a href="#demo" className="block hover:text-cyan-300">
-            Demo Talep Et
+          <a
+            href="#demo"
+            className="block transition hover:translate-x-1 hover:text-cyan-300"
+          >
+            Demo
           </a>
+
         </div>
       </div>
 
       {/* İletişim */}
       <div>
-        <h4 className="mb-5 text-lg font-bold">
-          İletişim
+        <h4 className="mb-4 text-base font-bold text-white">
+          Bize Ulaşın
         </h4>
 
-        <div className="space-y-3 text-gray-400">
-          <p>info@formup.com</p>
-          <p>+90 507 339 65 32</p>
-          <p>Adana, Türkiye</p>
+        <div className="space-y-2 text-sm text-gray-400">
+
+          <a
+            href="mailto:info@formup.com"
+            className="block transition hover:text-cyan-300"
+          >
+            info@formup.com
+          </a>
+
+          <a
+            href="tel:+905073396532"
+            className="block transition hover:text-cyan-300"
+          >
+            +90 507 339 65 32
+          </a>
+
+          <p>
+            Adana, Türkiye
+          </p>
+
         </div>
+
+       <div className="mt-5 flex gap-3">
+
+  <a
+    href="https://www.instagram.com/formupapp?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+    target="_blank"
+    rel="noreferrer"
+    className="group flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-gray-300 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-400/50 hover:text-cyan-300 hover:shadow-[0_0_25px_rgba(34,211,238,0.25)]"
+  >
+    <FaInstagram
+      size={18}
+      className="transition-transform duration-300 group-hover:scale-110"
+    />
+  </a>
+
+  <a
+    href="https://tr.linkedin.com/in/ali-efe-manap-10268b2a6"
+    target="_blank"
+    rel="noreferrer"
+    className="group flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-gray-300 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-400/50 hover:text-cyan-300 hover:shadow-[0_0_25px_rgba(34,211,238,0.25)]"
+  >
+    <FaLinkedinIn
+      size={17}
+      className="transition-transform duration-300 group-hover:scale-110"
+    />
+  </a>
+
+</div>
       </div>
 
     </div>
 
-    <div className="mt-8 border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-      <p className="text-sm text-gray-500">
+    <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-5 text-sm text-gray-500 md:flex-row md:items-center md:justify-between">
+
+      <p>
         © 2026 FormUp+. Tüm hakları saklıdır.
       </p>
 
-      <div className="flex gap-6 text-sm text-gray-500">
-        <span>Gizlilik Politikası</span>
-        <span>KVKK</span>
+      <div className="flex gap-5">
+        <a href="#" className="transition hover:text-cyan-300">
+          Gizlilik Politikası
+        </a>
+
+        <a href="#" className="transition hover:text-cyan-300">
+          KVKK
+        </a>
       </div>
+
     </div>
 
   </div>
 </footer>
-    </main>
-  );
+</main>
+</>
+);
 }
+
 function FeatureCard({ number, title, description }) {
   return (
     <motion.div
@@ -648,4 +828,5 @@ function AudienceCard({ number, icon, title, description, buttonText }) {
 }
 
 export default Home;
+
 
